@@ -1,9 +1,12 @@
 import Form from 'react-bootstrap/Form';
-import ButtonElement from './Button';
+import ButtonElement from './ButtonElement';
 
 
-const FormElement = ({ ids, setSelectedBreed }) => {
+const FormElement = ({ ids, selectedBreed, setSelectedBreed, breedInfoName }) => {
+  function handleClick() {
+    console.log(`button`);
 
+  }
 
   return (
     <>
@@ -19,7 +22,8 @@ const FormElement = ({ ids, setSelectedBreed }) => {
           return <option key={`${id} ${Date.now()}`} value={id}>{id}</option>;
         })}
       </Form.Select>
-      <ButtonElement text={'See more'} />
+      <ButtonElement
+        text={`See more ${breedInfoName}`} handleClick={handleClick} />
     </>
   );
 };

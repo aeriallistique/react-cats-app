@@ -54,6 +54,16 @@ function App() {
     }
   }, [breedID]);
 
+  const handleRandomCatClick = () => {
+    axios.get(`https://api.thecatapi.com/v1/images/search`).then((response) => {
+      setBreedInfo({
+        image: response.data[0].url,
+        name: `Random Cat`,
+        description: `Here's a random image of a kitty for your viewing pleasure!`,
+      });
+    });
+  };
+
   return (
     <div className="container-sm border d-flex justify-content-center flex-column mt-4">
       <FormElement
@@ -63,7 +73,10 @@ function App() {
         breedInfoName={breedInfo.name || "cats"}
         setBreedInfo={setBreedInfo}
       />
-      <ButtonElement text={"Get Random Cat"} />
+      <ButtonElement
+        text={"Get Random Cat"}
+        handleClick={handleRandomCatClick}
+      />
       <ImageCard breedInfo={breedInfo} />
     </div>
   );

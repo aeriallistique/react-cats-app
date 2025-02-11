@@ -8,15 +8,14 @@ import axios from 'axios';
 
 function App() {
   const [ids, setIds] = useState([]);
-  const [selectedBreed, setSelectedBreed] = useState('abys');
-  const [breedID, setBreedID] = useState('');
-  const [breedInfo, setBreedInfo] = useState({ image: 'https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg"', name: 'Abyssinian', description: 'The Abyssinian is easy to care for, and a joy to have in your home. They’re affectionate cats and love both people and other animals.' });
+  const [selectedBreed, setSelectedBreedId] = useState(null);
+  const [breedInfo, setBreedInfo] = useState(null);
 
   useEffect(() => {
     axios.get('https://api.thecatapi.com/v1/breeds')
       .then((response) => {
         const ids = response.data.map((breed) => {
-          return breed.id;
+          return { id: breed.reference_image_id, name: breed.name };
         });
         setIds(ids);
       })
@@ -26,15 +25,9 @@ function App() {
   }, []);
 
   useEffect(() => {
-
-    axios.get(`https://api.thecatapi.com/v1/images/search?breed_ids=${selectedBreed}`)
+    axios.get(`https://api.thecatapi.com/v1/images/${selectedBreed}`)
       .then(response => {
-        console.log(response, `in the first req`);
-
-        setBreedID(response.data[0].id);
-      });
-    axios.get(`https://api.thecatapi.com/v1/images/${breedID}`)
-      .then(response => {
+        console.log(response);
         setBreedInfo({
           image: response.data.url,
           name: response.data.breeds[0].name,
@@ -43,9 +36,11 @@ function App() {
       });
   }, [selectedBreed]);
 
+
+
   return (
     <div className='container-sm border d-flex justify-content-center flex-column mt-4'>
-      <FormElement ids={ids} selectedBreed={selectedBreed} setSelectedBreed={setSelectedBreed} breedInfoName={breedInfo.name || 'cats'} />
+      <FormElement ids={ids} setSelectedBreedId={setSelectedBreedId} />
       <ButtonElement text={'Get Random Cat'} />
       <ImageCard breedInfo={breedInfo} />
     </div>

@@ -8,8 +8,8 @@ const ButtonElement = ({ text, handleClick }) => {
     <Button
       className='w-50 mx-auto mt-2'
       variant="primary"
-      onClick={() => {
-        handleClick();
+      onClick={(e) => {
+        handleClick(e);
       }}
     >
       {text}

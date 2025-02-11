@@ -1,30 +1,33 @@
-import { useState, useEffect } from 'react';
-import ImageCard from './components/ImageCard';
+import { useState, useEffect } from "react";
+import ImageCard from "./components/ImageCard";
 
-import './App.css';
-import FormElement from './components/Form';
-import ButtonElement from './components/ButtonElement';
-import axios from 'axios';
+import "./App.css";
+import FormElement from "./components/FormElement";
+import ButtonElement from "./components/ButtonElement";
+import axios from "axios";
 
 function App() {
   const [ids, setIds] = useState([]);
+
   const [selectedBreed, setSelectedBreedId] = useState(null);
   const [breedInfo, setBreedInfo] = useState(null);
 
   useEffect(() => {
-    axios.get('https://api.thecatapi.com/v1/breeds')
+    axios
+      .get("https://api.thecatapi.com/v1/breeds")
       .then((response) => {
         const ids = response.data.map((breed) => {
           return { id: breed.reference_image_id, name: breed.name };
         });
         setIds(ids);
       })
-      .catch((err) => {
-        return Promise.reject({ msg: 'No cats found', code: 404 });
+      .catch(() => {
+        return Promise.reject({ msg: "No cats found", code: 404 });
       });
   }, []);
 
   useEffect(() => {
+
     axios.get(`https://api.thecatapi.com/v1/images/${selectedBreed}`)
       .then(response => {
         console.log(response);

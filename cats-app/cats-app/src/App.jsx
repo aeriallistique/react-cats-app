@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import ImageCard from "./components/ImageCard";
 
 import "./App.css";
-import FormElement from "./components/Form";
+import FormElement from "./components/FormElement";
 import ButtonElement from "./components/ButtonElement";
 import axios from "axios";
 
@@ -13,8 +13,7 @@ function App() {
   const [breedInfo, setBreedInfo] = useState({
     image: "https://cdn2.thecatapi.com/images/0XYvRd7oD.jpg",
     name: "Abyssinian",
-    description:
-      "The Abyssinian is easy to care for, and a joy to have in your home. They’re affectionate cats and love both people and other animals.",
+    description: `The Abyssinian is easy to care for, and a joy to have in your home. They’re affectionate cats and love both people and other animals.`,
   });
 
   useEffect(() => {
@@ -26,7 +25,7 @@ function App() {
         });
         setIds(ids);
       })
-      .catch((err) => {
+      .catch(() => {
         return Promise.reject({ msg: "No cats found", code: 404 });
       });
   }, []);
@@ -62,6 +61,7 @@ function App() {
         selectedBreed={selectedBreed}
         setSelectedBreed={setSelectedBreed}
         breedInfoName={breedInfo.name || "cats"}
+        setBreedInfo={setBreedInfo}
       />
       <ButtonElement text={"Get Random Cat"} />
       <ImageCard breedInfo={breedInfo} />

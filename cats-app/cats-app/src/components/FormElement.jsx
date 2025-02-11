@@ -1,14 +1,25 @@
 import Form from "react-bootstrap/Form";
 import ButtonElement from "./ButtonElement";
+import axios from "axios";
 
 const FormElement = ({
   ids,
   selectedBreed,
   setSelectedBreed,
   breedInfoName,
+  setBreedInfo,
 }) => {
   function handleClick() {
-    console.log(`button`);
+    axios
+      .get(
+        `https://api.thecatapi.com/v1/images/search?breed_ids=${selectedBreed}`
+      )
+      .then((response) => {
+        setBreedInfo((prev) => ({
+          ...prev,
+          image: response.data[0].url,
+        }));
+      });
   }
 
   return (
@@ -23,14 +34,14 @@ const FormElement = ({
         <option>Choose a breed</option>
         {ids.map((id) => {
           return (
-            <option key={`${id} ${Date.now()}`} value={id}>
+            <option key={`${id}`} value={id}>
               {id}
             </option>
           );
         })}
       </Form.Select>
       <ButtonElement
-        text={`See more ${breedInfoName}`}
+        text={`See another: ${breedInfoName}`}
         handleClick={handleClick}
       />
     </>

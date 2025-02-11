@@ -5,9 +5,11 @@ import { useState } from 'react';
 
 const FormElement = ({ ids, setSelectedBreedId }) => {
   function handleClick(e) {
-    console.log(e.target);
+    // console.log(e.target);
 
   }
+  console.log(ids);
+
   const [selectText, setSelectText] = useState('Choose a breed');
   return (
     <>
@@ -19,9 +21,11 @@ const FormElement = ({ ids, setSelectedBreedId }) => {
           setSelectText(e.target.selectedOptions[0].text);
         }}
       >
-        <option value={selectText}>{selectText}</option>
+        {/* <option >{selectText}</option> */}
+        <option value="">Choose</option>
         {ids.map((obj) => {
-          return <option key={`${obj.id}${Math.random()} ${Date.now()}`} value={obj.id}>{obj.name}</option>;
+          // return <option key={`${obj.id}`} value={obj.id}>{obj.name}</option>;
+          return <option>hi</option>;
         })}
       </Form.Select>
 

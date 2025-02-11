@@ -27,6 +27,7 @@ function App() {
   }, []);
 
   useEffect(() => {
+    console.log(`in the second`);
 
     axios.get(`https://api.thecatapi.com/v1/images/${selectedBreed}`)
       .then(response => {

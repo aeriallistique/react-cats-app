@@ -2,7 +2,7 @@ import Form from "react-bootstrap/Form";
 import ButtonElement from "./ButtonElement";
 import axios from "axios";
 
-const FormElement = ({
+const FormEl = ({
   ids,
   selectedBreed,
   setSelectedBreed,
@@ -48,4 +48,4 @@ const FormElement = ({
   );
 };
 
-export default FormElement;
+// export default FormEl;

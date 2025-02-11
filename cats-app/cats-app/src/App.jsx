@@ -2,14 +2,14 @@ import { useState, useEffect } from "react";
 import ImageCard from "./components/ImageCard";
 
 import "./App.css";
-import FormElement from "./components/FormElement";
+import FormElement from "./components/Form";
 import ButtonElement from "./components/ButtonElement";
 import axios from "axios";
 
 function App() {
   const [ids, setIds] = useState([]);
 
-  const [selectedBreed, setSelectedBreedId] = useState(null);
+  const [selectedBreedId, setSelectedBreedId] = useState(null);
   const [breedInfo, setBreedInfo] = useState(null);
 
   useEffect(() => {
@@ -17,7 +17,7 @@ function App() {
       .get("https://api.thecatapi.com/v1/breeds")
       .then((response) => {
         const ids = response.data.map((breed) => {
-          return { id: breed.reference_image_id, name: breed.name };
+          return { id: breed.reference_image_id, name: breed.name, breedId: breed.id };
         });
         setIds(ids);
       })
@@ -27,9 +27,7 @@ function App() {
   }, []);
 
   useEffect(() => {
-    console.log(`in the second`);
-
-    axios.get(`https://api.thecatapi.com/v1/images/${selectedBreed}`)
+    axios.get(`https://api.thecatapi.com/v1/images/${selectedBreedId}`)
       .then(response => {
         console.log(response);
         setBreedInfo({
@@ -38,15 +36,30 @@ function App() {
           description: response.data.breeds[0].description
         });
       });
-  }, [selectedBreed]);
+  }, [selectedBreedId]);
 
+  const fetchRandomCat = () => {
+    axios.get(`https://api.thecatapi.com/v1/images/search`)
+      .then((resp) => {
+        setBreedInfo({ image: resp.data[0].url });
+      });
+  };
 
 
   return (
     <div className='container-sm border d-flex justify-content-center flex-column mt-4'>
-      <FormElement ids={ids} setSelectedBreedId={setSelectedBreedId} />
-      <ButtonElement text={'Get Random Cat'} />
-      <ImageCard breedInfo={breedInfo} />
+      <FormElement
+        ids={ids}
+        setSelectedBreedId={setSelectedBreedId}
+        selectedBreedId={selectedBreedId}
+        setBreedInfo={setBreedInfo}
+      />
+      <ButtonElement
+        text={'Get Random Cat'}
+        handleClick={fetchRandomCat}
+      />
+      <ImageCard
+        breedInfo={breedInfo} />
     </div>
   );
 }
